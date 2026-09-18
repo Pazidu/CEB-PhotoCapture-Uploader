@@ -12,11 +12,21 @@
     <!-- GSAP Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .shutter-flash {
@@ -38,224 +48,149 @@
             }
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
+        @media print {
 
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+            html,
+            body {
+                overflow: visible;
+                height: auto;
+            }
         }
     </style>
 </head>
 
 <body
-    class="text-slate-900 antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
-
-    <!-- Header -->
-    <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-sm border-b border-slate-800">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div
-                    class="bg-indigo-600 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md shadow-indigo-600/30">
-                    <i class="fa-solid fa-shield-halved text-lg"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-base tracking-wide leading-tight">RAID VERIFY</h1>
-                    <p class="text-xs text-slate-400 font-medium">Strict Camera-Only Evidence Protocol</p>
-                </div>
-            </div>
-            <div
-                class="flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/60">
-                <span class="relative flex h-2 w-2">
-                    <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span class="text-xs font-semibold text-slate-200">Secure Protocol Active</span>
-            </div>
-        </div>
-    </header>
+    class="text-slate-900 antialiased h-screen flex flex-col justify-center items-center selection:bg-indigo-500 selection:text-white p-4">
 
     <!-- Main Content Container -->
-    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-grow">
+    <main class="max-w-3xl w-full mx-auto flex flex-col justify-center my-auto">
 
         <!-- Form View Container -->
-        <div id="view-form" class="space-y-6">
-
-            <!-- Intro Card -->
-            <div
-                class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold tracking-tight text-slate-900">Field Raid Verification</h2>
-                    <p class="text-sm text-slate-500 mt-1">Live camera capture is mandatory. Gallery uploads are
-                        strictly disabled.</p>
-                </div>
-                <div class="flex flex-wrap gap-2 text-xs font-semibold">
-                    <div id="gps-status-pill"
-                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 border border-amber-200">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span id="gps-status-text">Acquiring GPS...</span>
-                    </div>
-                </div>
-            </div>
+        <div id="view-form" class="space-y-4">
 
             <!-- Form -->
-            <form id="raidForm" class="space-y-6" onsubmit="event.preventDefault();">
-                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-5">
-                    <h3
-                        class="text-sm font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-3 flex items-center">
-                        <i class="fa-solid fa-file-lines mr-2 text-indigo-600"></i> Operation Metadata
-                    </h3>
+            <form id="raidForm" class="space-y-4" onsubmit="event.preventDefault();">
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <!-- Raid ID -->
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Raid /
-                                Incident ID</label>
-                            <div class="relative">
-                                <input type="text" id="raidId"
-                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-800 focus:outline-none"
-                                    readonly>
-                                <button type="button" onclick="generateNewRaidId()"
-                                    class="absolute right-3 top-3 text-slate-400 hover:text-indigo-600 transition"
-                                    title="Refresh ID">
-                                    <i class="fa-solid fa-rotate"></i>
+                <!-- Operation Metadata Section -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
+                            <i class="fa-solid fa-file-lines mr-2 text-indigo-600 text-sm"></i> Operation Metadata
+                        </h3>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full">
+                            Auto-Generated
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Timestamp Card -->
+                        <div
+                            class="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between hover:border-slate-300 transition">
+                            <div class="flex items-center justify-between mb-1">
+                                <label
+                                    class="text-[10px] font-bold uppercase tracking-wider text-slate-500 flex items-center">
+                                    <i class="fa-regular fa-clock text-indigo-600 mr-1.5"></i> Timestamp (Local)
+                                </label>
+                                <span class="flex h-1.5 w-1.5 relative">
+                                    <span
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                </span>
+                            </div>
+                            <input type="text" id="timestamp"
+                                class="w-full bg-transparent text-slate-800 font-mono text-sm font-semibold focus:outline-none cursor-default"
+                                readonly value="Loading timestamp...">
+                        </div>
+
+                        <!-- Geolocation Card -->
+                        <div
+                            class="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between hover:border-slate-300 transition">
+                            <div class="flex items-center justify-between mb-1">
+                                <label
+                                    class="text-[10px] font-bold uppercase tracking-wider text-slate-500 flex items-center">
+                                    <i class="fa-solid fa-satellite-dish text-indigo-600 mr-1.5"></i> GPS Coordinates
+                                </label>
+                                <button type="button" onclick="fetchGPSLocation()"
+                                    class="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 hover:underline transition">
+                                    Refresh GPS
                                 </button>
                             </div>
+                            <div class="flex items-center space-x-1.5">
+                                <i class="fa-solid fa-location-dot text-slate-400 text-xs"></i>
+                                <span id="geoCoordinates"
+                                    class="font-mono text-sm font-semibold text-slate-800 truncate">
+                                    Fetching coordinates...
+                                </span>
+                            </div>
                         </div>
-
-                        <!-- Officer Name / Badge -->
-                        <div>
-                            <label
-                                class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Officer
-                                Name & Badge ID <span class="text-red-500">*</span></label>
-                            <input type="text" id="officerName" placeholder="e.g. Insp. John Doe (OFF-8849)" required
-                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                        </div>
-
-                        <!-- Timestamp Auto -->
-                        <div>
-                            <label
-                                class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Timestamp
-                                (UTC)</label>
-                            <input type="text" id="timestamp"
-                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 focus:outline-none"
-                                readonly>
-                        </div>
-
-                        <!-- Location / Coordinates -->
-                        <div>
-                            <label
-                                class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Location
-                                / Sector <span class="text-red-500">*</span></label>
-                            <input type="text" id="locationName" placeholder="e.g. Sector 4, Warehouse Complex B"
-                                required
-                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                        </div>
-                    </div>
-
-                    <!-- Geolocation Bar -->
-                    <div
-                        class="p-4 bg-slate-50 rounded-2xl border border-slate-200/60 flex items-center justify-between text-xs">
-                        <div class="flex items-center space-x-2.5 text-slate-600">
-                            <i class="fa-solid fa-satellite-dish text-indigo-600 text-sm"></i>
-                            <span class="font-bold">GPS Coordinates:</span>
-                            <span id="geoCoordinates" class="font-mono text-slate-900 font-semibold">Fetching precise
-                                coordinates...</span>
-                        </div>
-                        <button type="button" onclick="fetchGPSLocation()"
-                            class="text-indigo-600 font-bold hover:underline">Refresh GPS</button>
-                    </div>
-
-                    <!-- Notes -->
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Raid Notes
-                            / Observations</label>
-                        <textarea id="raidNotes" rows="3"
-                            placeholder="Enter findings, suspect details, or evidence notes..."
-                            class="w-full bg-white border border-slate-200 rounded-xl p-4 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
                     </div>
                 </div>
 
                 <!-- Strict Camera-Only Photo Evidence Section -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-                    <div
-                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-100 pb-3 gap-2">
-                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center">
-                            <i class="fa-solid fa-camera mr-2 text-indigo-600"></i> Photo Evidence Capture <span
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
+                    <div class="flex flex-row justify-between items-center border-b border-slate-100 pb-2 gap-2">
+                        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
+                            <i class="fa-solid fa-camera mr-2 text-indigo-600 text-sm"></i> Photo Evidence Capture <span
                                 class="text-red-500 ml-1">*</span>
                         </h3>
                         <span
-                            class="text-xs bg-red-50 text-red-600 border border-red-200 font-bold px-3 py-1 rounded-full">
+                            class="text-[10px] bg-red-50 text-red-600 border border-red-200/60 font-bold px-2.5 py-0.5 rounded-full">
                             <i class="fa-solid fa-ban mr-1"></i> Gallery Uploads Disabled
                         </span>
                     </div>
 
                     <p class="text-xs text-slate-500 leading-relaxed">
-                        Security Notice: Saved images from your device gallery cannot be uploaded. You must capture a
-                        live photo directly using your camera hardware or live viewfinder.
+                        Notice: Saved images from your device gallery cannot be uploaded. You must capture a
+                        live photo directly using your camera.
                     </p>
 
-                    <!-- Capture Box -->
+                    <!-- Compact Capture Box -->
                     <div id="photoCaptureContainer"
-                        class="border-2 border-dashed border-slate-300 hover:border-indigo-400 bg-slate-50/60 rounded-3xl p-6 text-center transition flex flex-col items-center justify-center min-h-[240px]">
+                        class="border border-dashed border-slate-200 hover:border-indigo-400 bg-slate-50/50 rounded-xl p-5 text-center transition flex flex-col items-center justify-center min-h-[140px]">
 
                         <!-- State A: Initial Prompt -->
-                        <div id="capturePrompt" class="space-y-4 py-4">
+                        <div id="capturePrompt" class="space-y-2.5">
                             <div
-                                class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner text-2xl">
+                                class="w-11 h-11 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mx-auto shadow-inner text-base">
                                 <i class="fa-solid fa-camera-retro"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-slate-800 text-base">No Evidence Photo Captured</h4>
-
+                                <h4 class="font-bold text-slate-800 text-sm">No Evidence Photo Captured</h4>
                             </div>
 
-                            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
-                                <!-- Option 1: Live WebRTC Modal Viewfinder -->
+                            <div class="flex items-center justify-center pt-1">
                                 <button type="button" onclick="openCameraModal()"
-                                    class="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-bold shadow-lg shadow-indigo-600/25 flex items-center justify-center space-x-2 transition transform active:scale-95">
-                                    <i class="fa-solid fa-video"></i>
+                                    class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-600/20 flex items-center justify-center space-x-2 transition transform active:scale-95">
+                                    <i class="fa-solid fa-video text-xs"></i>
                                     <span>Take Photo</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- State B: Captured Photo Preview -->
-                        <div id="capturePreview" class="hidden w-full space-y-4">
+                        <div id="capturePreview" class="hidden w-full space-y-2.5">
                             <div
-                                class="relative max-w-md mx-auto rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-900">
+                                class="relative max-w-sm mx-auto rounded-xl overflow-hidden border border-slate-200 shadow-md bg-slate-900">
                                 <img id="capturedImageElement" src="" alt="Captured Raid Evidence"
-                                    class="w-full h-72 object-cover">
+                                    class="w-full h-44 object-cover">
 
                                 <!-- Geotag Watermark Overlay Banner -->
                                 <div
-                                    class="absolute bottom-0 inset-x-0 bg-slate-950/85 backdrop-blur-md p-3 text-white text-left text-xs font-mono border-t border-slate-800">
+                                    class="absolute bottom-0 inset-x-0 bg-slate-950/85 backdrop-blur-md p-2 text-white text-left font-mono border-t border-slate-800">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-indigo-400 font-bold" id="stampRaidId">#RAID-0000</span>
-                                        <span class="text-slate-300 text-[10px]" id="stampTime">00:00:00 UTC</span>
+                                        <span class="text-slate-300 text-[9px]" id="stampTime">00:00:00 UTC</span>
                                     </div>
-                                    <div class="truncate text-[11px] text-slate-200 mt-1" id="stampGeo">LAT: --, LNG: --
-                                    </div>
+                                    <div class="truncate text-[10px] text-slate-200 mt-0.5" id="stampGeo">LAT: --, LNG:
+                                        --</div>
                                 </div>
                             </div>
 
-                            <div class="flex justify-center space-x-3 pt-2">
+                            <div class="flex justify-center space-x-2">
                                 <button type="button" onclick="retakePhoto()"
-                                    class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center space-x-2 transition">
-                                    <i class="fa-solid fa-rotate-right"></i>
+                                    class="px-3 py-1.5 bg-slate-300 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition">
+                                    <i class="fa-solid fa-rotate-right text-[10px]"></i>
                                     <span>Retake Photo</span>
                                 </button>
-                                <div
-                                    class="flex items-center space-x-1.5 text-emerald-700 text-xs font-bold px-4 py-2.5 bg-emerald-50 rounded-xl border border-emerald-200">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    <span>Photo Verified & Locked</span>
-                                </div>
                             </div>
                         </div>
 
@@ -264,65 +199,71 @@
 
                 <!-- Submit Button -->
                 <button type="button" onclick="submitRaidForm()"
-                    class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2.5 text-base transition transform active:scale-98">
-                    <i class="fa-solid fa-paper-plane text-indigo-400"></i>
-                    <span>Submit & Verify Raid Evidence</span>
+                    class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-5 rounded-xl shadow-md hover:shadow-lg flex items-center justify-center space-x-2 text-sm transition transform active:scale-98">
+                    <i class="fa-solid fa-paper-plane text-indigo-400 text-xs"></i>
+                    <span>Submit</span>
                 </button>
             </form>
         </div>
 
         <!-- Live WebRTC Camera Modal -->
         <div id="cameraModal"
-            class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden flex-col items-center justify-between p-4 sm:p-6">
+            class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden flex-col items-center justify-between p-4">
             <!-- Modal Top Bar -->
-            <div class="w-full max-w-lg flex justify-between items-center text-white z-10">
-                <div class="flex items-center space-x-2.5">
-                    <span class="w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
+            <div class="w-full max-w-md flex justify-between items-center text-white z-10">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
                     <span class="font-bold text-xs uppercase tracking-wider">Live Camera Viewfinder</span>
                 </div>
                 <button onclick="closeCameraModal()"
-                    class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-sm"></i>
+                    class="w-8 h-8 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
 
             <!-- Video Viewfinder Frame -->
             <div
-                class="relative w-full max-w-lg aspect-[3/4] sm:aspect-square bg-black rounded-3xl overflow-hidden my-auto border border-slate-800 shadow-2xl flex items-center justify-center">
+                class="relative w-full max-w-md aspect-[3/4] bg-black rounded-2xl overflow-hidden my-auto border border-slate-800 shadow-2xl flex items-center justify-center">
                 <video id="webcamVideo" autoplay playsinline class="w-full h-full object-cover"></video>
 
                 <!-- HUD Targeting Reticle -->
                 <div
-                    class="absolute inset-0 pointer-events-none border-2 border-white/15 m-6 rounded-2xl flex flex-col justify-between p-4">
+                    class="absolute inset-0 pointer-events-none border-2 border-white/15 m-4 rounded-xl flex flex-col justify-between p-3">
                     <div class="flex justify-between">
-                        <div class="w-6 h-6 border-t-2 border-l-2 border-indigo-500"></div>
-                        <div class="w-6 h-6 border-t-2 border-r-2 border-indigo-500"></div>
+                        <div class="w-5 h-5 border-t-2 border-l-2 border-indigo-500"></div>
+                        <div class="w-5 h-5 border-t-2 border-r-2 border-indigo-500"></div>
                     </div>
                     <!-- HUD Geotag Overlay -->
-                    <div
-                        class="bg-black/60 backdrop-blur-md p-3 rounded-2xl border border-white/10 text-white font-mono text-[10px] space-y-1">
-                        <div class="text-indigo-400 font-bold flex items-center"><i
-                                class="fa-solid fa-crosshairs mr-1"></i> LIVE GEOTAG STREAM</div>
-                        <div id="modalHudGeo">LAT: -- | LNG: --</div>
-                        <div id="modalHudTime" class="text-slate-400">0000-00-00 00:00:00</div>
+                    <div class="absolute bottom-3 left-3 z-20 pointer-events-none">
+                        <div
+                            class="bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/10 text-white font-mono text-[9px] space-y-0.5 shadow-lg max-w-[200px]">
+                            <div
+                                class="text-indigo-400 font-bold flex items-center tracking-wider uppercase text-[8px]">
+                                <i class="fa-solid fa-crosshairs mr-1 text-[10px] animate-pulse"></i> LIVE GEOTAG STREAM
+                            </div>
+                            <div id="modalHudGeo" class="font-medium text-slate-200">LAT: -- | LNG: --</div>
+                            <div id="modalHudTime" class="text-slate-400 text-[8px]">0000-00-00 00:00:00</div>
+                        </div>
                     </div>
-                    <div class="flex justify-between">
-                        <div class="w-6 h-6 border-b-2 border-l-2 border-indigo-500"></div>
-                        <div class="w-6 h-6 border-b-2 border-r-2 border-indigo-500"></div>
+
+                    <!-- Viewfinder Bottom Corner Reticles -->
+                    <div class="absolute bottom-2 left-2 right-2 flex justify-between pointer-events-none z-10">
+                        <div class="w-5 h-5 border-b-2 border-l-2 border-indigo-500/80 rounded-bl"></div>
+                        <div class="w-5 h-5 border-b-2 border-r-2 border-indigo-500/80 rounded-br"></div>
                     </div>
                 </div>
 
-                <!-- Simulation Fallback if WebRTC fails -->
+                <!-- Simulation Fallback -->
                 <div id="camFallback"
-                    class="hidden absolute inset-0 bg-slate-900 p-6 flex flex-col items-center justify-center text-center text-white space-y-4">
-                    <i class="fa-solid fa-triangle-exclamation text-4xl text-amber-400"></i>
+                    class="hidden absolute inset-0 bg-slate-900 p-4 flex flex-col items-center justify-center text-center text-white space-y-3">
+                    <i class="fa-solid fa-triangle-exclamation text-3xl text-amber-400"></i>
                     <div>
-                        <h4 class="font-bold">Camera Stream Restricted</h4>
-                        <p class="text-xs text-slate-400 mt-1">Simulating live camera capture for testing environment.
-                        </p>
+                        <h4 class="font-bold text-sm">Camera Stream Restricted</h4>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Simulating live camera capture for testing
+                            environment.</p>
                     </div>
                     <button onclick="triggerSimulatedCapture()"
-                        class="px-5 py-2.5 bg-indigo-600 rounded-xl font-bold text-xs shadow-lg">
+                        class="px-4 py-2 bg-indigo-600 rounded-xl font-bold text-xs shadow-lg">
                         Capture Simulated Snapshot
                     </button>
                 </div>
@@ -332,65 +273,65 @@
             </div>
 
             <!-- Modal Bottom Controls -->
-            <div class="w-full max-w-lg flex items-center justify-around py-3 z-10">
+            <div class="w-full max-w-md flex items-center justify-around py-2 z-10">
                 <button onclick="switchCameraFacing()" title="Switch Camera"
-                    class="w-12 h-12 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition border border-slate-700">
-                    <i class="fa-solid fa-camera-rotate"></i>
+                    class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition border border-slate-700">
+                    <i class="fa-solid fa-camera-rotate text-xs"></i>
                 </button>
 
                 <!-- Shutter Capture Button -->
                 <button onclick="takeWebcamSnapshot()"
-                    class="w-18 h-18 bg-white hover:bg-slate-200 rounded-full flex items-center justify-center shadow-2xl border-4 border-indigo-600 transition transform active:scale-90 p-1">
-                    <div class="w-14 h-14 bg-indigo-600 rounded-full"></div>
+                    class="w-14 h-14 bg-white hover:bg-slate-200 rounded-full flex items-center justify-center shadow-2xl border-4 border-indigo-600 transition transform active:scale-90 p-0.5">
+                    <div class="w-11 h-11 bg-indigo-600 rounded-full"></div>
                 </button>
 
                 <button onclick="closeCameraModal()" title="Cancel"
-                    class="w-12 h-12 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition border border-slate-700">
-                    <i class="fa-solid fa-xmark"></i>
+                    class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition border border-slate-700">
+                    <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-            <!-- Hidden Canvas for Snapshot Generation -->
+            <!-- Hidden Canvas -->
             <canvas id="snapshotCanvas" class="hidden"></canvas>
         </div>
 
-        <!-- Confirmation Receipt View (Hidden initially) -->
-        <div id="view-receipt" class="hidden space-y-6">
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden max-w-2xl mx-auto">
+        <!-- Confirmation Receipt View -->
+        <div id="view-receipt" class="hidden space-y-4">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden max-w-xl mx-auto">
 
                 <!-- Receipt Header -->
-                <div class="bg-slate-900 text-white p-6 sm:p-8 relative">
+                <div class="bg-slate-900 text-white p-5 relative">
                     <div class="flex justify-between items-start">
-                        <div class="space-y-1">
+                        <div class="space-y-0.5">
                             <span
-                                class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">VERIFIED
-                                & LOGGED</span>
-                            <h2 class="text-2xl font-bold tracking-tight pt-2">Evidence Receipt</h2>
-                            <p class="text-xs text-slate-400">Tactical Operations Database Registry</p>
+                                class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                                VERIFIED & LOGGED
+                            </span>
+                            <h2 class="text-xl font-bold tracking-tight pt-1">Evidence Receipt</h2>
+                            <p class="text-[11px] text-slate-400">Tactical Operations Database Registry</p>
                         </div>
-                        <div class="bg-indigo-600 p-3.5 rounded-2xl">
-                            <i class="fa-solid fa-shield-check text-xl text-white"></i>
+                        <div class="bg-indigo-600 p-2.5 rounded-xl">
+                            <i class="fa-solid fa-shield-check text-lg text-white"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Receipt Body -->
-                <div class="p-6 sm:p-8 space-y-6">
+                <div class="p-5 space-y-4">
 
                     <!-- Evidence Photo Preview -->
-                    <div class="space-y-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Verified Live Photo
+                    <div class="space-y-1.5">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Verified Live Photo
                             Evidence</span>
-                        <div
-                            class="relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-900">
-                            <img id="receiptPhoto" src="" alt="Verified Photo" class="w-full h-72 object-cover">
+                        <div class="relative rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-slate-900">
+                            <img id="receiptPhoto" src="" alt="Verified Photo" class="w-full h-52 object-cover">
                             <div
-                                class="absolute bottom-0 inset-x-0 bg-slate-950/85 backdrop-blur-md p-3 text-white text-xs font-mono flex justify-between items-center border-t border-slate-800">
+                                class="absolute bottom-0 inset-x-0 bg-slate-950/85 backdrop-blur-md p-2.5 text-white text-xs font-mono flex justify-between items-center border-t border-slate-800">
                                 <div>
-                                    <p id="receiptGeo" class="font-bold text-emerald-400">LAT: --, LNG: --</p>
-                                    <p id="receiptTime" class="text-slate-300 text-[10px]">2026-09-18 00:00:00 UTC</p>
+                                    <p id="receiptGeo" class="font-bold text-emerald-400 text-xs">LAT: --, LNG: --</p>
+                                    <p id="receiptTime" class="text-slate-300 text-[9px]">--</p>
                                 </div>
                                 <div
-                                    class="bg-slate-800 px-2.5 py-1 rounded border border-slate-700 text-[10px] text-slate-300">
+                                    class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700 text-[9px] text-slate-300">
                                     LIVE CAM STAMP
                                 </div>
                             </div>
@@ -398,45 +339,27 @@
                     </div>
 
                     <!-- Details Grid -->
-                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200/70 text-xs">
+                    <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/70 text-xs">
                         <div>
-                            <span class="text-slate-400 block font-medium">RAID / INCIDENT ID</span>
-                            <span id="receiptRaidId" class="font-bold text-slate-900 text-sm">--</span>
+                            <span class="text-slate-400 block font-medium text-[10px]">SUBMISSION TIMESTAMP</span>
+                            <span id="receiptTimestampValue"
+                                class="font-semibold text-slate-900 text-xs font-mono">--</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium">OFFICER NAME & BADGE</span>
-                            <span id="receiptOfficerName"
-                                class="font-bold text-slate-900 text-sm truncate block">--</span>
+                            <span class="text-slate-400 block font-medium text-[10px]">GPS PRECISION</span>
+                            <span class="font-semibold text-emerald-600 text-xs">High Precision (&lt; 10m)</span>
                         </div>
-                        <div>
-                            <span class="text-slate-400 block font-medium">LOCATION / SECTOR</span>
-                            <span id="receiptLocation" class="font-semibold text-slate-900">--</span>
-                        </div>
-                        <div>
-                            <span class="text-slate-400 block font-medium">GPS PRECISION</span>
-                            <span class="font-semibold text-emerald-600">High Precision (&lt; 10m)</span>
-                        </div>
-                    </div>
-
-                    <!-- Field Notes -->
-                    <div class="space-y-1">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Officer
-                            Observations</span>
-                        <p id="receiptNotes"
-                            class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-slate-700 text-xs leading-relaxed italic">
-                            No extra notes provided.
-                        </p>
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+                    <div class="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-100">
                         <button onclick="window.print()"
-                            class="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition">
+                            class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-lg text-xs flex items-center justify-center space-x-1.5 transition">
                             <i class="fa-solid fa-print"></i>
                             <span>Print Digital Receipt</span>
                         </button>
                         <button onclick="resetRaidForm()"
-                            class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-indigo-600/20">
+                            class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-1.5 transition shadow-md shadow-indigo-600/20">
                             <i class="fa-solid fa-plus-circle"></i>
                             <span>New Verification Log</span>
                         </button>
@@ -448,75 +371,64 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-100 border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 Secure Raid Verification System • Strict Camera Enforcement</p>
-    </footer>
-
     <script>
-        // Application State
-        let currentGeo = {lat: null, lng: null, formatted: "Unavailable"};
+        let currentGeo = { lat: null, lng: null, formatted: "Fetching..." };
         let capturedImageData = null;
+        let captureTimestamp = null;
         let mediaStream = null;
-        let facingMode = "environment"; // default to rear camera
+        let facingMode = "environment";
 
-        // Initialization
+        function getLocalFormatted() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const time = now.toLocaleTimeString('en-US', { hour12: true });
+            return `${year}-${month}-${day} ${time}`;
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            generateNewRaidId();
             updateLiveTimestamp();
             fetchGPSLocation();
             setInterval(updateLiveTimestamp, 1000);
         });
 
-        // 1. Generate Raid ID
-        function generateNewRaidId() {
-            const randomNum = Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('raidId').value = `RAID-${randomNum}`;
-        }
-
-        // 2. Timestamp Updater
         function updateLiveTimestamp() {
-            const now = new Date();
-            const formatted = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
-            document.getElementById('timestamp').value = formatted;
+            const formatted = getLocalFormatted();
+
+            const timestampElem = document.getElementById('timestamp');
+            if (timestampElem) timestampElem.value = formatted;
 
             const hudTime = document.getElementById('modalHudTime');
             if (hudTime) hudTime.textContent = formatted;
         }
 
-        // 3. High Precision GPS Geolocation
         function fetchGPSLocation() {
             const geoText = document.getElementById('geoCoordinates');
-            const gpsPillText = document.getElementById('gps-status-text');
-            const gpsPill = document.getElementById('gps-status-pill');
 
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const lat = position.coords.latitude.toFixed(6);
                         const lng = position.coords.longitude.toFixed(6);
-                        currentGeo = {lat, lng, formatted: `LAT: ${lat}, LNG: ${lng}`};
+                        currentGeo = { lat, lng, formatted: `${lat}, ${lng}` };
 
-                        geoText.textContent = `${lat}, ${lng}`;
-                        gpsPillText.textContent = "GPS Acquired";
-                        gpsPill.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200";
+                        if (geoText) geoText.textContent = `${lat}, ${lng}`;
 
                         const hudGeo = document.getElementById('modalHudGeo');
                         if (hudGeo) hudGeo.textContent = `LAT: ${lat} | LNG: ${lng}`;
                     },
                     (error) => {
-                        currentGeo = {lat: "6.9271", lng: "79.8612", formatted: "LAT: 6.927100, LNG: 79.861200 (Estimated)"};
-                        geoText.textContent = "6.927100, 79.861200 (Estimated)";
-                        gpsPillText.textContent = "GPS Fixed (Approx)";
+                        currentGeo = { lat: "7.273013", lng: "80.607903", formatted: "7.273013, 80.607903" };
+                        if (geoText) geoText.textContent = "7.273013, 80.607903";
                     },
-                    {enableHighAccuracy: true, timeout: 10000}
+                    { enableHighAccuracy: true, timeout: 10000 }
                 );
             } else {
-                geoText.textContent = "Geolocation unsupported";
+                if (geoText) geoText.textContent = "Geolocation unsupported";
             }
         }
 
-        // 4. Open WebRTC Camera Modal
         async function openCameraModal() {
             const modal = document.getElementById('cameraModal');
             const video = document.getElementById('webcamVideo');
@@ -525,11 +437,11 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
 
-            gsap.fromTo(modal, {opacity: 0}, {opacity: 1, duration: 0.3});
+            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
 
             try {
                 mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: {facingMode: facingMode, width: {ideal: 1280}, height: {ideal: 720}},
+                    video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
                     audio: false
                 });
                 video.srcObject = mediaStream;
@@ -561,7 +473,6 @@
             await openCameraModal();
         }
 
-        // 5. Take Snapshot from WebRTC Viewfinder
         function takeWebcamSnapshot() {
             const video = document.getElementById('webcamVideo');
             const canvas = document.getElementById('snapshotCanvas');
@@ -577,6 +488,7 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
             capturedImageData = canvas.toDataURL('image/jpeg', 0.9);
+            captureTimestamp = getLocalFormatted();
 
             setTimeout(() => {
                 closeCameraModal();
@@ -602,71 +514,44 @@
             ctx.fillText('LIVE RAID EVIDENCE SNAPSHOT', 320, 248);
 
             capturedImageData = canvas.toDataURL('image/jpeg');
+            captureTimestamp = getLocalFormatted();
             closeCameraModal();
             displayCapturedPhoto(capturedImageData);
         }
 
-        // 6. Handle Direct Hardware Camera Shutter (`capture="environment"`)
-        function handleDirectCameraCapture(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    capturedImageData = e.target.result;
-                    displayCapturedPhoto(capturedImageData);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // 7. Display Captured Photo Preview
         function displayCapturedPhoto(dataUrl) {
             document.getElementById('capturePrompt').classList.add('hidden');
             const previewBox = document.getElementById('capturePreview');
             previewBox.classList.remove('hidden');
 
             document.getElementById('capturedImageElement').src = dataUrl;
-            document.getElementById('stampRaidId').textContent = document.getElementById('raidId').value;
-            document.getElementById('stampTime').textContent = document.getElementById('timestamp').value;
+            document.getElementById('stampTime').textContent = captureTimestamp || getLocalFormatted();
             document.getElementById('stampGeo').textContent = currentGeo.formatted;
 
-            gsap.fromTo(previewBox, {scale: 0.95, opacity: 0}, {scale: 1, opacity: 1, duration: 0.4});
+            gsap.fromTo(previewBox, { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4 });
         }
 
         function retakePhoto() {
             capturedImageData = null;
+            captureTimestamp = null;
             document.getElementById('capturePreview').classList.add('hidden');
             document.getElementById('capturePrompt').classList.remove('hidden');
-            document.getElementById('directCameraInput').value = "";
         }
 
-        // 8. Submit Form & Generate Receipt
         function submitRaidForm() {
-            const officerName = document.getElementById('officerName').value.trim();
-            const locationName = document.getElementById('locationName').value.trim();
-            const notes = document.getElementById('raidNotes').value.trim();
-            const raidId = document.getElementById('raidId').value;
+            const submitTime = getLocalFormatted();
 
-            if (!officerName) {
-                alert("Please enter Officer Name and Badge ID.");
-                return;
-            }
-            if (!locationName) {
-                alert("Please enter Location / Sector.");
-                return;
-            }
             if (!capturedImageData) {
                 alert("Mandatory Photo Evidence missing! Please use live camera capture.");
                 return;
             }
 
-            document.getElementById('receiptRaidId').textContent = raidId;
-            document.getElementById('receiptOfficerName').textContent = officerName;
-            document.getElementById('receiptLocation').textContent = locationName;
-            document.getElementById('receiptTime').textContent = document.getElementById('timestamp').value;
+            const receiptTimestamp = document.getElementById('receiptTimestampValue');
+            if (receiptTimestamp) receiptTimestamp.textContent = submitTime;
+
+            document.getElementById('receiptTime').textContent = captureTimestamp || submitTime;
             document.getElementById('receiptGeo').textContent = currentGeo.formatted;
             document.getElementById('receiptPhoto').src = capturedImageData;
-            document.getElementById('receiptNotes').textContent = notes || "No additional observations noted.";
 
             const viewForm = document.getElementById('view-form');
             const viewReceipt = document.getElementById('view-receipt');
@@ -678,8 +563,7 @@
                 onComplete: () => {
                     viewForm.classList.add('hidden');
                     viewReceipt.classList.remove('hidden');
-                    gsap.fromTo(viewReceipt, {opacity: 0, y: 30}, {opacity: 1, y: 0, duration: 0.5});
-                    window.scrollTo({top: 0, behavior: 'smooth'});
+                    gsap.fromTo(viewReceipt, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5 });
                 }
             });
         }
@@ -690,7 +574,6 @@
 
             document.getElementById('raidForm').reset();
             retakePhoto();
-            generateNewRaidId();
 
             gsap.to(viewReceipt, {
                 opacity: 0,
@@ -698,7 +581,7 @@
                 onComplete: () => {
                     viewReceipt.classList.add('hidden');
                     viewForm.classList.remove('hidden');
-                    gsap.fromTo(viewForm, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.4});
+                    gsap.fromTo(viewForm, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 });
                 }
             });
         }
